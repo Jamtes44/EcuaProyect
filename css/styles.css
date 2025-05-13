@@ -1,0 +1,92 @@
+/* css/styles.css */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+  
+  nav {
+    background-color: #333;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  nav ul li {
+    flex: 1;
+  }
+  
+  nav ul li a {
+    display: block;
+    padding: 14px 20px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  nav ul li a:hover {
+    background-color: #555;
+  }
+  
+  section {
+    padding: 60px;
+    display: none;
+  }
+  
+  section.active {
+    display: block;
+  }
+  
+  #inicio { background-color: #f0f0f0; }
+  #exponencial { background-color: #e0f7fa; }
+  #logistica { background-color: #fce4ec; }
+  #laplace { background-color: #ede7f6; }
+
+  .card-body-text {
+    font-family: 'Georgia', serif;
+    line-height: 1.8;
+    letter-spacing: 0.03em;
+    color: #333;
+  }
+
+  .card-body-text p,
+  .card-body-text ul,
+  .card-body-text h2,
+  .card-body-text h4 {
+    margin-bottom: 1.5rem;
+  }
+
+  .card-body-text ul {
+    padding-left: 1.5rem;
+  }
+
+  .card-body-text h2 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #004085;
+  }
+
+  .card-body-text h4 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: #0056b3;
+  }
+
+  #pasosResolucion, #pasosResolucionLog {
+    font-family: 'Georgia', serif;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: #333;
+  }
