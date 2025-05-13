@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ecuaciones Diferenciales</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  </style>
+
+  <!-- MathJax (versión simplificada sin polyfill) -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Ecuaciones Diferenciales</a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#" data-section="inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" data-section="exponencial">Exponencial</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" data-section="logistica">Logística</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" data-section="laplace">Laplace</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido -->
+  <main class="container py-5">
+    <!-- INICIO -->
+    <section id="inicio">
+      <div class="card shadow-sm">
+      <div class="card-body card-body-text">
+           <h2 class="text-primary">¿Qué es una ecuación diferencial?</h2>
+          <p>Una <strong>ecuación diferencial</strong> es una ecuación que involucra derivadas de una función desconocida respecto a una o más variables independientes. Formalmente, una ecuación diferencial puede expresarse como:</p>
+          <p class="text-center">$$ F\left(x, y, y', y'', \ldots, y^{(n)}\right) = 0 $$</p>
+          <p>Donde \( y^{(n)} \) representa la derivada de orden \( n \) de la función \( y \) respecto a \( x \).</p>
+
+      <h4>Ejemplos de ecuaciones diferenciales:</h4>
+      <ul>
+        <li>Ecuación diferencial de primer orden: \( \frac{dy}{dx} + y = x \)</li>
+        <li>Ecuación diferencial de segundo orden: \( \frac{d^2y}{dx^2} - 3\frac{dy}{dx} + 2y = 0 \)</li>
+      </ul>
+
+      <h4>Clasificación:</h4>
+      <p>Las ecuaciones diferenciales se pueden clasificar según varios criterios importantes:</p>
+      <ul>
+        <li><strong>Orden:</strong> El orden es el grado de la derivada más alta presente en la ecuación. Por ejemplo, una ecuación con \( \frac{d^2y}{dx^2} \) es de segundo orden.</li>
+        <li><strong>Linealidad:</strong> Una ecuación es lineal si la función desconocida y sus derivadas aparecen en forma lineal, es decir, no están elevadas a potencias ni multiplicadas entre sí. Por ejemplo, \( \frac{dy}{dx} + y = x \) es lineal, mientras que \( \frac{dy}{dx} = y^2 \) no lo es.</li>
+        <li><strong>Homogeneidad:</strong> Una ecuación es homogénea si todos los términos contienen la función desconocida o sus derivadas; si hay términos independientes, es no homogénea. Por ejemplo, \( \frac{dy}{dx} + y = 0 \) es homogénea, mientras que \( \frac{dy}{dx} + y = x \) no lo es.</li>
+        <li><strong>Separabilidad:</strong> Algunas ecuaciones pueden separarse en funciones de variables independientes y dependientes, permitiendo resolverlas mediante separación de variables. Por ejemplo, \( \frac{dy}{dx} = g(x)h(y) \).</li>
+        <li><strong>Exactitud:</strong> Una ecuación diferencial es exacta si puede expresarse como la derivada total de una función potencial. Esto facilita su solución mediante integración directa.</li>
+      </ul>
+      <p>Estas clasificaciones ayudan a determinar el método más adecuado para resolver la ecuación diferencial.</p>
+
+      <h4>Métodos básicos de solución:</h4>
+      <p>Dependiendo del tipo y orden, las ecuaciones diferenciales pueden resolverse mediante métodos analíticos como separación de variables, método de integración por factores, transformada de Laplace, entre otros.</p>
+
+      <h4>Aplicaciones:</h4>
+      <p>Las ecuaciones diferenciales son fundamentales para modelar fenómenos en física, biología, economía, ingeniería y muchas otras áreas. Por ejemplo:</p>
+      <ul>
+        <li>Crecimiento poblacional: \( \frac{dP}{dt} = kP \)</li>
+        <li>Movimiento de partículas: \( m\frac{d^2x}{dt^2} = F \)</li>
+        <li>Dinámica de enfermedades: modelos SIR</li>
+      </ul>
+
+      <h4>Ecuación poblacional básica</h4>
+      <p>La ecuación poblacional básica parte de:</p>
+      <p class="text-center">$$ \frac{dP}{dt} = kP $$</p>
+      <p>Donde:</p>
+      <ul>
+        <li><strong>\( P(t) \)</strong>: representa la población en el tiempo \( t \).</li>
+        <li><strong>\( \frac{dP}{dt} \)</strong>: es la tasa de cambio de la población respecto al tiempo, es decir, cómo varía la población en un instante dado.</li>
+        <li><strong>\( k \)</strong>: es la constante de crecimiento o tasa proporcional, que indica la velocidad a la que crece o decrece la población.</li>
+      </ul>
+      <p>La tasa de cambio es proporcional al tamaño de la población. Esta suposición es válida en condiciones ideales (sin recursos limitados).</p>
+    </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPONENCIAL -->
+    <section id="exponencial" style="display: none;">
+      <div class="card shadow-lg">
+      <div class="card-body card-body-text">
+          <h2 class="text-success">Modelo Exponencial Poblacional</h2>
+      <p>La ecuación diferencial es:</p>
+      <p class="text-center">$$ \frac{dP}{dt} = kP $$</p>
+      <p>Donde:</p>
+      <ul>
+        <li>\( P(t) \): población en el tiempo \( t \)</li>
+        <li>\( k \): constante de crecimiento</li>
+      </ul>
+      <p>Para resolver esta ecuación y obtener la solución general, seguimos estos pasos:</p>
+      <ol>
+        <li><strong>Separar variables:</strong> Reescribimos la ecuación para separar las variables \( P \) y \( t \):
+          <p class="text-center">$$ \frac{1}{P} \, dP = k \, dt $$</p>
+        </li>
+        <li><strong>Integrar ambos lados:</strong> Integramos ambos lados de la ecuación:
+          <p class="text-center">$$ \int \frac{1}{P} \, dP = \int k \, dt $$</p>
+          <p>Lo que da:</p>
+          <p class="text-center">$$ \ln |P| = kt + C $$</p>
+        </li>
+        <li><strong>Despejar \( P \):</strong> Exponenciamos ambos lados para eliminar el logaritmo:
+          <p class="text-center">$$ |P| = e^{kt + C} = e^C e^{kt} $$</p>
+          <p>Definimos \( P_0 = e^C \) como la constante de integración, que representa la población inicial.</p>
+          <p>Por lo tanto:</p>
+          <p class="text-center">$$ P(t) = P_0 e^{kt} $$</p>
+        </li>
+      </ol>
+      <p>Para obtener \( k \), usamos dos datos: \( P(0) \) y \( P(t) \).</p>
+
+      <!-- Formulario -->
+      <form id="formExponencial" class="row g-3 mt-4">
+        <div class="col-md-4">
+          <label for="p0" class="form-label">Población inicial \( P(0) \)</label>
+          <input type="number" class="form-control" id="p0" required>
+        </div>
+        <div class="col-md-4">
+          <label for="t" class="form-label">Tiempo \( t \)</label>
+          <input type="number" class="form-control" id="t" required>
+        </div>
+        <div class="col-md-4">
+          <label for="pt" class="form-label">Población en \( t \) (\( P(t) \))</label>
+          <input type="number" class="form-control" id="pt" required>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Calcular modelo</button>
+        </div>
+      </form>
+
+      <!-- Resultado -->
+      <div id="resultadoExponencial" class="mt-5" style="display: none;">
+        <h5>Resolución:</h5>
+        <div id="pasosResolucion" class="mt-3"></div>
+
+        <canvas id="graficaPoblacion" height="100"></canvas>
+
+        <!-- Sección para consultar valor de P(t) -->
+        <div class="my-4">
+          <label for="tiempoConsulta" class="form-label">Consultar población para un tiempo \( t \):</label>
+          <input type="number" class="form-control w-25" id="tiempoConsulta" placeholder="Ej: 10">
+          <button class="btn btn-outline-primary mt-2" onclick="calcularValor()">Calcular \( P(t) \)</button>
+          <p class="mt-2" id="resultadoConsulta"></p>
+        </div>
+      </div>
+    </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGÍSTICA -->
+    <section id="logistica" style="display: none;">
+      <div class="card shadow-lg">
+          <div class="card-body card-body-text">
+          <h2 class="text-warning">Modelo Logístico Poblacional</h2>
+          <p>La ecuación diferencial logística es:</p>
+          <p class="text-center">$$ \frac{dP}{dt} = rP \left(1 - \frac{P}{K}\right) $$</p>
+          <p>Donde:</p>
+          <ul>
+            <li>\( P(t) \): población en el tiempo \( t \)</li>
+            <li>\( r \): tasa de crecimiento intrínseca</li>
+            <li>\( K \): capacidad de carga del ambiente</li>
+          </ul>
+          <p>La solución general es:</p>
+          <p class="text-center">$$ P(t) = \frac{K}{1 + \left(\frac{K - P_0}{P_0}\right) e^{-rt}} $$</p>
+
+          <h4>Derivación paso a paso de la solución general:</h4>
+          <ol>
+            <li>Partimos de la ecuación diferencial logística: \( \frac{dP}{dt} = rP \left(1 - \frac{P}{K}\right) \)</li>
+            <li>Reescribimos la ecuación para separar variables: \( \frac{dP}{P(1 - \frac{P}{K})} = r \, dt \)</li>
+            <li>Realizamos la descomposición en fracciones parciales: \( \frac{1}{P(1 - \frac{P}{K})} = \frac{1}{P} + \frac{1}{K - P} \)</li>
+            <li>Integramos ambos lados: \( \int \left( \frac{1}{P} + \frac{1}{K - P} \right) dP = \int r \, dt \)</li>
+            <li>La integral da: \( \ln|P| - \ln|K - P| = rt + C \)</li>
+            <li>Reorganizamos para despejar \( P \): \( \ln \left| \frac{P}{K - P} \right| = rt + C \)</li>
+            <li>Exponenciamos ambos lados: \( \frac{P}{K - P} = Ce^{rt} \)</li>
+            <li>Despejamos \( P \): \( P = \frac{KCe^{rt}}{1 + Ce^{rt}} \)</li>
+            <li>Definimos la constante \( C \) en función de la condición inicial \( P(0) = P_0 \): \( C = \frac{P_0}{K - P_0} \)</li>
+            <li>Finalmente, obtenemos la solución general: \( P(t) = \frac{K}{1 + \left(\frac{K - P_0}{P_0}\right) e^{-rt}} \)</li>
+          </ol>
+
+          <p>Para resolver el modelo, ingresa los datos a continuación:</p>
+          <form id="formLogistica" class="row g-3 mt-4">
+            <div class="col-md-3">
+              <label for="p0Log" class="form-label">Población inicial \( P_0 \)</label>
+              <input type="number" class="form-control" id="p0Log" required>
+            </div>
+            <div class="col-md-3">
+              <label for="ptLog" class="form-label">Población en \( t \) (\( P(t) \))</label>
+              <input type="number" step="any" class="form-control" id="ptLog" required>
+            </div>
+            <div class="col-md-3">
+              <label for="kLog" class="form-label">Capacidad de carga \( K \)</label>
+              <input type="number" class="form-control" id="kLog" required>
+            </div>
+            <div class="col-md-3">
+              <label for="tLog" class="form-label">Tiempo \( t \)</label>
+              <input type="number" class="form-control" id="tLog" required>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-warning">Calcular modelo</button>
+            </div>
+          </form>
+
+          <div id="resultadoLogistica" class="mt-5" style="display: none;">
+            <h5>Resolución:</h5>
+            <div id="pasosResolucionLog" class="mt-3"></div>
+            <canvas id="graficaPoblacionLog" height="100"></canvas>
+            
+            <!-- Sección corregida para calcular P(t) -->
+            <div class="my-4">
+              <label for="tiempoConsultaLog" class="form-label">Consultar población para un tiempo \( t \):</label>
+              <input type="number" class="form-control w-25" id="tiempoConsultaLog" placeholder="Ej: 10">
+              <button class="btn btn-outline-warning mt-2" onclick="calcularValorLog()">Calcular \( P(t) \)</button>
+              <p class="mt-2" id="resultadoConsultaLog"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LAPLACE -->
+    <section id="laplace" style="display: none;">
+      <div class="card"><div class="card-body card-body-text">Laplace - en desarrollo</div></div>
+    </section>
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Main JS (debes actualizar tu archivo main.js con las correcciones anteriores) -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>
