@@ -161,10 +161,10 @@
     </section>
 
     <!-- LOGÍSTICA -->
-    <section id="logistica" style="display: none;">
+    <section id="logistica" style="display: none; background-color: #e0f7fa;">
       <div class="card shadow-lg">
           <div class="card-body card-body-text">
-          <h2 class="text-warning">Modelo Logístico Poblacional</h2>
+          <h2 class="text-success">Modelo Logístico Poblacional</h2>
           <p>La ecuación diferencial logística es:</p>
           <p class="text-center">$$ \frac{dP}{dt} = rP \left(1 - \frac{P}{K}\right) $$</p>
           <p>Donde:</p>
@@ -178,16 +178,36 @@
 
           <h4>Derivación paso a paso de la solución general:</h4>
           <ol>
-            <li>Partimos de la ecuación diferencial logística: \( \frac{dP}{dt} = rP \left(1 - \frac{P}{K}\right) \)</li>
-            <li>Reescribimos la ecuación para separar variables: \( \frac{dP}{P(1 - \frac{P}{K})} = r \, dt \)</li>
-            <li>Realizamos la descomposición en fracciones parciales: \( \frac{1}{P(1 - \frac{P}{K})} = \frac{1}{P} + \frac{1}{K - P} \)</li>
-            <li>Integramos ambos lados: \( \int \left( \frac{1}{P} + \frac{1}{K - P} \right) dP = \int r \, dt \)</li>
-            <li>La integral da: \( \ln|P| - \ln|K - P| = rt + C \)</li>
-            <li>Reorganizamos para despejar \( P \): \( \ln \left| \frac{P}{K - P} \right| = rt + C \)</li>
-            <li>Exponenciamos ambos lados: \( \frac{P}{K - P} = Ce^{rt} \)</li>
-            <li>Despejamos \( P \): \( P = \frac{KCe^{rt}}{1 + Ce^{rt}} \)</li>
-            <li>Definimos la constante \( C \) en función de la condición inicial \( P(0) = P_0 \): \( C = \frac{P_0}{K - P_0} \)</li>
-            <li>Finalmente, obtenemos la solución general: \( P(t) = \frac{K}{1 + \left(\frac{K - P_0}{P_0}\right) e^{-rt}} \)</li>
+            <li>Partimos de la ecuación diferencial logística:
+              <p class="text-center">\( \frac{dP}{dt} = rP \left(1 - \frac{P}{K}\right) \)</p>
+            </li>
+            <li>Reescribimos la ecuación para separar variables:
+              <p class="text-center">\( \frac{dP}{P(1 - \frac{P}{K})} = r \, dt \)</p>
+            </li>
+            <li>Realizamos la descomposición en fracciones parciales:
+              <p class="text-center">\( \frac{1}{P(1 - \frac{P}{K})} = \frac{1}{P} + \frac{1}{K - P} \)</p>
+            </li>
+            <li>Integramos ambos lados:
+              <p class="text-center">\( \int \left( \frac{1}{P} + \frac{1}{K - P} \right) dP = \int r \, dt \)</p>
+            </li>
+            <li>La integral da:
+              <p class="text-center">\( \ln|P| - \ln|K - P| = rt + C \)</p>
+            </li>
+            <li>Reorganizamos para despejar \( P \):
+              <p class="text-center">\( \ln \left| \frac{P}{K - P} \right| = rt + C \)</p>
+            </li>
+            <li>Exponenciamos ambos lados:
+              <p class="text-center">\( \frac{P}{K - P} = Ce^{rt} \)</p>
+            </li>
+            <li>Despejamos \( P \):
+              <p class="text-center">\( P = \frac{KCe^{rt}}{1 + Ce^{rt}} \)</p>
+            </li>
+            <li>Definimos la constante \( C \) en función de la condición inicial \( P(0) = P_0 \):
+              <p class="text-center">\( C = \frac{P_0}{K - P_0} \)</p>
+            </li>
+            <li>Finalmente, obtenemos la solución general:
+              <p class="text-center">\( P(t) = \frac{K}{1 + \left(\frac{K - P_0}{P_0}\right) e^{-rt}} \)</p>
+            </li>
           </ol>
 
           <p>Para resolver el modelo, ingresa los datos a continuación:</p>
@@ -209,7 +229,7 @@
               <input type="number" class="form-control" id="tLog" required>
             </div>
             <div class="col-12">
-              <button type="submit" class="btn btn-warning">Calcular modelo</button>
+              <button type="submit" class="btn btn-primary">Calcular modelo</button>
             </div>
           </form>
 
@@ -222,7 +242,7 @@
             <div class="my-4">
               <label for="tiempoConsultaLog" class="form-label">Consultar población para un tiempo \( t \):</label>
               <input type="number" class="form-control w-25" id="tiempoConsultaLog" placeholder="Ej: 10">
-              <button class="btn btn-outline-warning mt-2" onclick="calcularValorLog()">Calcular \( P(t) \)</button>
+              <button class="btn btn-outline-primary mt-2" onclick="calcularValorLog()">Calcular \( P(t) \)</button>
               <p class="mt-2" id="resultadoConsultaLog"></p>
             </div>
           </div>
