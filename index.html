@@ -28,7 +28,15 @@
           <li class="nav-item"><a class="nav-link" href="#" data-section="inicio">Inicio</a></li>
           <li class="nav-item"><a class="nav-link" href="#" data-section="exponencial">Exponencial</a></li>
           <li class="nav-item"><a class="nav-link" href="#" data-section="logistica">Logística</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" data-section="laplace">Laplace</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="laplaceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Laplace
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="laplaceDropdown">
+          <li><a class="dropdown-item" href="#" data-section="exponencial-nuevo">Ecuacion poblacional exponencial</a></li>
+          <li><a class="dropdown-item" href="#" data-section="logistica-nuevo">Ecuacion poblacional Logistica</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>
@@ -269,6 +277,102 @@
       <div class="card"><div class="card-body card-body-text">Laplace - en desarrollo</div></div>
     </section>
   </main>
+
+  <!-- NUEVAS SECCIONES EN BLANCO -->
+  <section id="exponencial-nuevo" style="display: none; background-color: #e0f7fa;">
+    <div class="card shadow-lg">
+      <div class="card-body card-body-text">
+        <h2 class="text-success">Ecuacion poblacional exponencial (Nueva Sección)</h2>
+        <p>Esta sera la ecuacion que tendremos que resolver, al usar la transformada de Laplace primero debemos de hacer la tranformada de la ecuacion.</p>
+        <p class="text-center">
+          $$ \frac{dP}{dt} = rP $$
+        </p>
+        <p class="text-center">
+          $$ \mathcal{L} \left\{ \frac{dP}{dt} \right\} = \mathcal{L} \{ rP \} $$
+        </p>
+        <p class="text-center">
+          $$ sP(s) - P_0 = rP(s) $$
+        </p>
+        <p>Bueno una vez haciendo la tranformada, procedemos a despejar P(s)</p>
+        <p class="text-center">
+          $$ sP(s) - P_0 = rP(s) $$
+        </p>
+        <p class="text-center">
+          $$ sP(s) - rP(s) = P_0 $$
+        </p>
+        <p class="text-center">
+          $$ P(s)(s - r) = P_0 $$
+        </p>
+        <p class="text-center">
+          $$ P(s) = \frac{P_0}{s - r} $$
+        </p>
+        <p>Ya yna vez despejado P(s), aplicamos transformada inversa</p>
+        <p class="text-center">
+          $$ P(s) = \frac{P_0}{s - r} $$
+        </p>
+        <p class="text-center">
+          $$ P(s) = \mathcal{L}^{-1} \left\{ \frac{P_0}{s - r} \right\} $$
+        </p>
+        <p class="text-center">
+          $$ P(s) = P_0 \mathcal{L}^{-1} \left\{ \frac{1}{s - r} \right\} $$
+        </p>
+        <p>La Transformada Inversa de \( \mathcal{L}^{-1} \left\{ \frac{1}{s - a} \right\} \) es \( e^{at} \) por lo tanto</p>
+        <p class="text-center">
+          $$ P(s) = P_0 \mathcal{L}^{-1} \left\{ \frac{1}{s - r} \right\} $$
+        </p>
+        <p class="text-center">
+          $$ P(t) = P_0 e^{rt} $$
+        </p>
+
+        <!-- Formulario para P0 y r -->
+        <form id="formExponencialNuevo" class="row g-3 mt-4">
+          <div class="col-md-6">
+            <label for="p0Nuevo" class="form-label">Población inicial \( P(0) \)</label>
+            <input type="number" class="form-control" id="p0Nuevo" required min="0" step="any" />
+          </div>
+          <div class="col-md-6">
+            <label for="rNuevo" class="form-label">Tasa de crecimiento \( r \)</label>
+            <input type="number" class="form-control" id="rNuevo" required step="any" />
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Calcular modelo</button>
+          </div>
+        </form>
+
+        <!-- Resultado -->
+        <div id="resultadoExponencialNuevo" class="mt-4" style="display: none;">
+          <h5>Resolución:</h5>
+          <div id="pasosResolucionNuevo" class="mt-3"></div>
+          <canvas id="graficaPoblacionNuevo" height="100"></canvas>
+
+          <!-- Sección para consultar valor de P(t) -->
+          <div class="my-4">
+            <label for="tiempoConsultaNuevo" class="form-label">Consultar población para un tiempo \( t \):</label>
+            <input type="number" class="form-control w-25" id="tiempoConsultaNuevo" placeholder="Ej: 10" min="0" step="any" />
+            <button class="btn btn-outline-primary mt-2" onclick="calcularValorNuevo()">Calcular \( P(t) \)</button>
+            <p class="mt-2" id="resultadoConsultaNuevo"></p>
+          </div>
+          <!-- Nueva sección para ingresar valor real y calcular error -->
+          <div class="my-4">
+            <label for="valorRealExponencialNuevo" class="form-label">Valor real de la población en \( t \)</label>
+            <input type="number" class="form-control w-25" id="valorRealExponencialNuevo" placeholder="Ej: 1500" />
+            <button class="btn btn-outline-danger mt-2" id="calcularErrorExponencialNuevoBtn">Calcular error</button>
+            <p class="mt-2" id="resultadoErrorExponencialNuevo"></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="logistica-nuevo" style="display: none;">
+    <div class="card shadow-sm">
+      <div class="card-body card-body-text">
+        <h2 class="text-primary">Ecuacion poblacional Logistica (Nueva Sección)</h2>
+        <p>Esta sección está en blanco por el momento.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
