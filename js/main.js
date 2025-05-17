@@ -1,4 +1,4 @@
-let P0 = 0;
+  let P0 = 0;
 let k = 0;
 let chartExponencial = null;
 let chartLogistica = null;
@@ -49,6 +49,32 @@ document.getElementById('formExponencial').addEventListener('submit', function(e
   // Graficar la población
   graficar();
 });
+
+// Evento para calcular error exponencial con fórmula corregida (denominador valor real)
+document.getElementById('calcularErrorExponencialBtn').addEventListener('click', function() {
+  const valorReal = parseFloat(document.getElementById('valorRealExponencial').value);
+  const tiempo = parseFloat(document.getElementById('t').value);
+
+  if (isNaN(valorReal) || valorReal <= 0) {
+    alert('Por favor, ingresa un valor real válido y positivo para la población.');
+    return;
+  }
+  if (isNaN(tiempo) || tiempo < 0) {
+    alert('Por favor, ingresa un tiempo válido.');
+    return;
+  }
+  if (P0 === 0 || k === 0) {
+    alert('Primero calcula el modelo exponencial antes de calcular el error.');
+    return;
+  }
+
+  const poblacionCalculada = P0 * Math.exp(k * tiempo);
+  const errorPorcentaje = (Math.abs(valorReal - poblacionCalculada) / valorReal);
+
+  const resultado = `Error porcentual: ${errorPorcentaje.toFixed(2)}%`;
+  document.getElementById('resultadoErrorExponencial').innerHTML = resultado;
+});
+
 // Modelo Logístico
 document.getElementById('formLogistica').addEventListener('submit', function(event) {
   event.preventDefault();
@@ -98,6 +124,34 @@ document.getElementById('formLogistica').addEventListener('submit', function(eve
   }
   // Graficar la población logística con el valor calculado de r
   graficarLogistica(P0Log, rLog, KLog, tLog);
+});
+
+// Evento para calcular error logístico con fórmula corregida (denominador valor real)
+document.getElementById('calcularErrorLogisticaBtn').addEventListener('click', function() {
+  const valorReal = parseFloat(document.getElementById('valorRealLogistica').value);
+  const tiempo = parseFloat(document.getElementById('tLog').value);
+  const P0Log = parseFloat(document.getElementById('p0Log').value);
+  const KLog = parseFloat(document.getElementById('kLog').value);
+
+  if (isNaN(valorReal) || valorReal <= 0) {
+    alert('Por favor, ingresa un valor real válido y positivo para la población.');
+    return;
+  }
+  if (isNaN(tiempo) || tiempo < 0) {
+    alert('Por favor, ingresa un tiempo válido.');
+    return;
+  }
+  if (rLog === 0) {
+    alert('Primero calcula el modelo logístico antes de calcular el error.');
+    return;
+  }
+
+  // Calcular P(t) logístico
+  const poblacionCalculadaLog = KLog / (1 + ((KLog - P0Log) / P0Log) * Math.exp(-rLog * tiempo));
+  const errorPorcentaje = (Math.abs(valorReal - poblacionCalculadaLog) / valorReal) ;
+
+  const resultado = `Error porcentual: ${errorPorcentaje.toFixed(2)}%`;
+  document.getElementById('resultadoErrorLogistica').innerHTML = resultado;
 });
 
 function mostrarSeccion(id) {
