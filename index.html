@@ -365,11 +365,181 @@
     </div>
   </section>
 
-  <section id="logistica-nuevo" style="display: none;">
-    <div class="card shadow-sm">
+  <section id="logistica-nuevo" style="display: none; background-color: #f8f9fa;">
+    <div class="card shadow-lg">
       <div class="card-body card-body-text">
-        <h2 class="text-primary">Ecuacion poblacional Logistica (Nueva Sección)</h2>
-        <p>Esta sección está en blanco por el momento.</p>
+        <h2 class="text-primary">Ecuación poblacional Logística (Nueva Sección)</h2>
+        <p>Bueno ahora tenemos una ecuación logística no lineal, y queremos resolverla usando transformada de Laplace. Como la transformada se aplica a ecuaciones lineales, primero debemos linealizarla con un cambio de variable.</p>
+        <p class="text-center">
+          $$ \frac{\textrm{dP}}{\textrm{dt}} = \textrm{rP} \left(1 - \frac{P}{K}\right), \quad P(0) = P_0 $$
+        </p>
+        <p>Lo primero que haremos es expandir la ecuación</p>
+        <p class="text-center">
+          $$ \frac{\textrm{dP}}{\textrm{dt}} = \textrm{rP} - \frac{r}{K} P^2 $$
+        </p>
+        <p>Es una ecuación no lineal, y resolverla directamente con Laplace no es viable. Por eso hacemos un cambio de variable.</p>
+        <p class="text-center">
+          $$ \begin{array}{l} u = P^{2-3} = P^{-1} \\ u = \frac{1}{P} \\ P = \frac{1}{u} \end{array} $$
+        </p>
+        <p>Con esta sustitución ahora vamos a escribir la E.D en términos de \( u \):</p>
+        <p class="text-center">
+          $$ \begin{array}{l} u = P^{-1} \\ \frac{\textrm{du}}{\textrm{dt}} = -P^{-2} * \frac{\textrm{dP}}{\textrm{dt}} \\ \frac{\textrm{du}}{\textrm{dt}} = -\frac{1}{P^2} * \frac{\textrm{dP}}{\textrm{dt}} \\ -P^2 = \frac{\textrm{du}}{\textrm{dt}} = \frac{\textrm{dP}}{\textrm{dt}} \end{array} $$
+        </p>
+        <p>Luego escribimos la E.D logística como</p>
+        <p class="text-center">
+          $$ \begin{array}{l} \frac{\textrm{dP}}{\textrm{dt}} = \textrm{rP} - \frac{r}{K} P^2 \\ -P^2 \frac{\textrm{du}}{\textrm{dt}} = \textrm{rP} - \frac{r}{K} P^2 \end{array} $$
+        </p>
+        <p>Ahora reemplazamos todas las \( P \) por la sustitución inicial</p>
+        <p class="text-center">
+          $$ \begin{array}{l} P = \frac{1}{u} \\ -\left(\frac{1}{u^2}\right) \frac{\textrm{du}}{\textrm{dt}} = r \left(\frac{1}{u}\right) - \frac{r \left(\frac{1}{u^2}\right)}{K} \\ -\left(\frac{1}{u^2}\right) \frac{\textrm{du}}{\textrm{dt}} = \frac{r}{u} - \frac{r}{K u^2} \end{array} $$
+        </p>
+        <p>Ahora con esto pasamos el \( u^2 \) que está dividiendo a la izquierda a multiplicar a la derecha.</p>
+        <p class="text-center">
+          $$ -\frac{\textrm{du}}{\textrm{dt}} = \frac{r u^2}{u} - \frac{r u^2}{K u^2} $$
+        </p>
+        <p>Simplificamos la ecuación</p>
+        <p class="text-center">
+          $$ -\frac{\textrm{du}}{\textrm{dt}} = r u - \frac{r}{K} $$
+        </p>
+        <p>Pasamos el \( r u \) al otro lado</p>
+        <p class="text-center">
+          $$ -\frac{\textrm{du}}{\textrm{dt}} - r u = -\frac{r}{K} $$
+        </p>
+        <p>Y ahora para dejar la derivada positiva multiplicamos todo por -1</p>
+        <p class="text-center">
+          $$ \frac{\textrm{du}}{\textrm{dt}} + r u = \frac{r}{K} $$
+        </p>
+        <p>Ahora tenemos la ecuación lineal perfecta para resolver por Laplace, así que aplicamos transformada de Laplace</p>
+        <p class="text-center">
+          $$ \begin{array}{l} L \left\{ \frac{\textrm{dU}}{\textrm{dt}} + r U \right\} = L \left\{ \frac{r}{K} \right\} \\ s U(s) - U(0) + r U(s) = \frac{r}{K} * \frac{1}{s} \end{array} $$
+        </p>
+        <p>Si la condición inicial es \( P(0) = P_0 \), entonces podemos reescribirla como \( U(0) = \frac{1}{P_0} \)</p>
+        <p>Con esto podemos reescribir la ecuación.</p>
+        <p class="text-center">
+          $$ \begin{array}{l} s U(s) - U(0) + r U(s) = \frac{r}{K} * \frac{1}{s} \\ s U(s) - \frac{1}{P_0} + r U(s) = \frac{r}{K} * \frac{1}{s} \end{array} $$
+        </p>
+        <p>Ahora simplificamos la ecuación</p>
+        <p class="text-center">
+          $$ \begin{array}{l} s U(s) - \frac{1}{P_0} + r U(s) = \frac{r}{K} * \frac{1}{s} \\ s U(s) + r U(s) = \frac{1}{P_0} + \frac{r}{K} * \frac{1}{s} \\ (s + r) U(s) = \frac{1}{P_0} + \frac{r}{K} * \frac{1}{s} \end{array} $$
+        </p>
+        <p>Ahora con la ecuación despejamos \( U(s) \)</p>
+        <p class="text-center">
+          $$ U(s) = \frac{1}{P_0 (s + r)} + \frac{r}{K} * \frac{1}{s (s + r)} $$
+        </p>
+        <p>Aplicamos transformada inversa</p>
+        <p class="text-center">
+          $$ \begin{array}{l} U(s) = L^{-1} \left\{ \frac{1}{P_0 (s + r)} \right\} + \frac{r}{K} L^{-1} \left\{ \frac{1}{s (s + r)} \right\} \\ U(s) = \frac{1}{P_0} L^{-1} \left\{ \frac{1}{s + r} \right\} + \frac{r}{K} L^{-1} \left\{ \frac{1}{s (s + r)} \right\} \\ U(s) = \frac{1}{P_0} e^{-r t} + \frac{r}{K} L^{-1} \left\{ \frac{1}{s (s + r)} \right\} \end{array} $$
+        </p>
+        <p>Como podemos ver la segunda derivada no se halla en alguna tabla de transformada inversa por lo tanto usamos fracciones parciales</p>
+        <p class="text-center">
+          $$ \frac{1}{s (s + r)} $$
+        </p>
+        <p>Multiplicamos en ambos lados por \( s (s + r) \)</p>
+        <p class="text-center">
+          $$ \begin{array}{l} \frac{s (s + r)}{s (s + r)} = \frac{A s (s + r)}{s} + \frac{B s (s + r)}{s + r} \\ 1 = A (s + r) + B s \end{array} $$
+        </p>
+        <p>Agrupamos términos</p>
+        <p class="text-center">
+          $$ \begin{array}{l} 1 = A (s + r) + B s \\ 1 = A s + A r + B s \\ 1 = (A + B) s + A r \end{array} $$
+        </p>
+        <p>Igualamos coeficientes</p>
+        <p class="text-center">
+          $$ \begin{array}{l} A + B = 0 \\ A r = 1 \end{array} $$
+        </p>
+        <p>Por lo tanto despejando</p>
+        <p class="text-center">
+          $$ \begin{array}{l} A = \frac{1}{r} \\ A + B = 0 \\ \frac{1}{r} + B = 0 \\ B = -\frac{1}{r} \end{array} $$
+        </p>
+        <p>Así que ahora sabemos que</p>
+        <p class="text-center">
+          $$ \begin{array}{l} L^{-1} \left\{ \frac{1}{s} \right\} = 1 \\ L^{-1} \left\{ \frac{1}{s + r} \right\} = e^{-r t} \end{array} $$
+        </p>
+        <p>Entonces ahora escribimos</p>
+        <p class="text-center">
+          $$ L^{-1} \left\{ \frac{1}{s (s + r)} \right\} = \frac{1}{r} L^{-1} \left\{ \frac{1}{s} \right\} - \frac{1}{r} L^{-1} \left\{ \frac{1}{s + r} \right\} = \frac{1}{r} (1 - e^{-r t}) $$
+        </p>
+        <p>Eso lo podemos escribir como</p>
+        <p class="text-center">
+          $$ \frac{1 - e^{-r t}}{r} $$
+        </p>
+        <p>Por lo tanto ahora podemos reemplazar</p>
+        <p class="text-center">
+          $$ \begin{array}{l} U(t) = \frac{1}{P_0} e^{-r t} + \frac{r}{K} * \frac{1 - e^{-r t}}{r} \\ U(t) = \frac{1}{P_0} e^{-r t} + \frac{1 - e^{-r t}}{K} \end{array} $$
+        </p>
+        <p>Procedemos a sumar las fracciones para simplificar lo más posible la ecuación, queremos expresar la suma como una sola fracción, el mínimo común denominador es \( P_0 K \), así que</p>
+        <p class="text-center">
+          $$ U(t) = \frac{K e^{-r t}}{P_0 K} + \frac{P_0 (1 - e^{-r t})}{P_0 K} $$
+        </p>
+        <p>Sumamos los denominadores</p>
+        <p class="text-center">
+          $$ U(t) = \frac{K e^{-r t} + P_0 (1 - e^{-r t})}{P_0 K} $$
+        </p>
+        <p>Expandimos</p>
+        <p class="text-center">
+          $$ U(t) = \frac{K e^{-r t} + P_0 - P_0 e^{-r t}}{P_0 K} $$
+        </p>
+        <p>Simplificamos el denominador</p>
+        <p class="text-center">
+          $$ U(t) = \frac{(K + P_0) e^{-r t} + P_0}{P_0 K} $$
+        </p>
+        <p>Ahora recordemos la condición inicial</p>
+        <p class="text-center">
+          $$ U = \frac{1}{P} $$
+        </p>
+        <p>Al despejar \( P \) tenemos</p>
+        <p class="text-center">
+          $$ P(t) = \frac{1}{U(t)} = \frac{P_0 K}{(K - P_0) e^{-r t} + P_0} $$
+        </p>
+        <p>Dividimos tanto numerador como denominador por \( P_0 \)</p>
+        <p class="text-center">
+          $$ \frac{\frac{P_0 K}{P_0}}{\frac{(K - P_0) e^{-r t}}{P_0} + \frac{P_0}{P_0}} $$
+        </p>
+        <p>Simplificando la ecuación quedaría</p>
+        <p class="text-center">
+          $$ P(t) = \frac{K}{\left(\frac{K - P_0}{P_0}\right) e^{-r t} + 1} $$
+        </p>
+
+        <!-- Formulario para P0, r, K, t -->
+        <form id="formLogisticaNuevo" class="row g-3 mt-4">
+          <div class="col-md-4">
+            <label for="p0NuevoLog" class="form-label">Población inicial \( P_0 \)</label>
+            <input type="number" class="form-control" id="p0NuevoLog" required min="0" step="any" />
+          </div>
+          <div class="col-md-4">
+            <label for="rNuevoLog" class="form-label">Tasa de crecimiento \( r \)</label>
+            <input type="number" class="form-control" id="rNuevoLog" required step="any" />
+          </div>
+          <div class="col-md-4">
+            <label for="kNuevoLog" class="form-label">Capacidad de carga \( K \)</label>
+            <input type="number" class="form-control" id="kNuevoLog" required step="any" />
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Calcular modelo</button>
+          </div>
+        </form>
+
+        <!-- Resultado -->
+        <div id="resultadoLogisticaNuevo" class="mt-4" style="display: none;">
+          <h5>Resolución:</h5>
+          <div id="pasosResolucionNuevoLog" class="mt-3"></div>
+          <canvas id="graficaPoblacionNuevoLog" height="100"></canvas>
+
+          <!-- Sección para consultar valor de P(t) -->
+          <div class="my-4">
+            <label for="tiempoConsultaNuevoLog" class="form-label">Consultar población para un tiempo \( t \):</label>
+            <input type="number" class="form-control w-25" id="tiempoConsultaNuevoLog" placeholder="Ej: 10" min="0" step="any" />
+            <button class="btn btn-outline-primary mt-2" onclick="calcularValorNuevoLog()">Calcular \( P(t) \)</button>
+            <p class="mt-2" id="resultadoConsultaNuevoLog"></p>
+          </div>
+
+          <!-- Nueva sección para ingresar valor real y calcular error -->
+          <div class="my-4">
+            <label for="valorRealNuevoLog" class="form-label">Valor real de la población en \( t \)</label>
+            <input type="number" class="form-control w-25" id="valorRealNuevoLog" placeholder="Ej: 1500" />
+            <button class="btn btn-outline-danger mt-2" id="calcularErrorNuevoLogBtn">Calcular error</button>
+            <p class="mt-2" id="resultadoErrorNuevoLog"></p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
