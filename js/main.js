@@ -1,8 +1,11 @@
-  let P0 = 0;
+let P0 = 0;
 let k = 0;
 let chartExponencial = null;
 let chartLogistica = null;
 let rLog = 0;
+
+let numerator = 0;
+let denominator = 0;
 
 document.getElementById('formExponencial').addEventListener('submit', function(event) {
   event.preventDefault();
@@ -156,7 +159,7 @@ document.getElementById('calcularErrorLogisticaBtn').addEventListener('click', f
 
 function mostrarSeccion(id) {
   // Ocultar todas las secciones
-  const secciones = ['inicio', 'exponencial', 'logistica', 'laplace'];
+  const secciones = ['inicio', 'exponencial', 'logistica', 'laplace', 'exponencial-nuevo', 'logistica-nuevo'];
   secciones.forEach(seccion => {
     const elemento = document.getElementById(seccion);
     if (elemento) {
@@ -210,6 +213,16 @@ function calcularValorLog() {
 
 
 document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+  link.addEventListener('click', function(event) {
+    event.preventDefault();
+    const section = this.getAttribute('data-section');
+    if (section) {
+      mostrarSeccion(section);
+    }
+  });
+});
+
+document.querySelectorAll('.navbar-nav .dropdown-item').forEach(link => {
   link.addEventListener('click', function(event) {
     event.preventDefault();
     const section = this.getAttribute('data-section');
@@ -339,3 +352,146 @@ function graficarLogistica(P0Log, rLog, KLog, tLog) {
 
 // Mostrar la sección "inicio" por defecto al cargar la página
 mostrarSeccion('inicio');
+
+// Manejo del formulario y cálculo para la sección "exponencial-nuevo"
+document.getElementById('formExponencialNuevo').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const P0Nuevo = parseFloat(document.getElementById('p0Nuevo').value);
+  const rNuevo = parseFloat(document.getElementById('rNuevo').value);
+
+  if (isNaN(P0Nuevo) || P0Nuevo <= 0) {
+    alert('Por favor, ingresa un valor numérico positivo para P(0).');
+    return;
+  }
+  if (isNaN(rNuevo)) {
+    alert('Por favor, ingresa un valor numérico para r.');
+    return;
+  }
+
+  // Guardar valores globales para uso en cálculo posterior
+  P0 = P0Nuevo;
+  k = rNuevo;
+
+  // Mostrar sección de resultados
+  document.getElementById('resultadoExponencialNuevo').style.display = 'block';
+
+  // Mostrar pasos de resolución
+  const pasosNuevo = `
+    <p>Modelo: \\( \\frac{dP}{dt} = rP \\)</p>
+    <p>Solución general: \\( P(t) = P_0 e^{rt} \\)</p>
+    <p>Con los valores ingresados:</p>
+    <ul>
+      <li>\\( P_0 = ${P0Nuevo} \\)</li>
+      <li>\\( r = ${rNuevo} \\)</li>
+    </ul>
+    <p>La función de población es:</p>
+    <p class="text-center">\\( P(t) = ${P0Nuevo} e^{${rNuevo} t} \\)</p>
+  `;
+  document.getElementById('pasosResolucionNuevo').innerHTML = pasosNuevo;
+
+  // Renderizar MathJax
+  if (window.MathJax) {
+    MathJax.typesetPromise();
+  }
+
+  // Graficar la población
+  graficarNuevo();
+});
+
+// Función para calcular P(t) en la sección "exponencial-nuevo"
+function calcularValorNuevo() {
+  const tiempoConsultaNuevo = parseFloat(document.getElementById('tiempoConsultaNuevo').value);
+  if (isNaN(tiempoConsultaNuevo) || tiempoConsultaNuevo < 0) {
+    alert('Por favor, ingresa un tiempo válido (número positivo).');
+    return;
+  }
+  const poblacionCalculada = P0 * Math.exp(k * tiempoConsultaNuevo);
+  const resultadoTexto = `Para t = ${tiempoConsultaNuevo}, la población calculada es P(t) = ${poblacionCalculada.toFixed(4)}.`;
+  document.getElementById('resultadoConsultaNuevo').textContent = resultadoTexto;
+}
+
+// Función para graficar la población en la sección "exponencial-nuevo"
+function graficarNuevo() {
+  const tiempoMax = 20; // rango fijo para graficar
+  const ctx = document.getElementById('graficaPoblacionNuevo').getContext('2d');
+
+  const labels = [];
+  const data = [];
+
+  for (let i = 0; i <= tiempoMax; i++) {
+    labels.push(i);
+    data.push(P0 * Math.exp(k * i));
+  }
+
+  if (chartExponencial) chartExponencial.destroy();
+
+  const legendLabel = `P(t) = ${P0.toFixed(2)} * e^{${k.toFixed(4)} * t}`;
+
+  chartExponencial = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: legendLabel,
+        data: data,
+        borderColor: 'rgba(40, 167, 69, 1)', // verde bootstrap
+        borderWidth: 2,
+        fill: false,
+        tension: 0.3,
+        pointRadius: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              size: 14
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Tiempo (t)'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Población'
+          }
+        }
+      }
+    }
+  });
+}
+
+// Evento para calcular error porcentual en la sección "exponencial-nuevo"
+document.getElementById('calcularErrorExponencialNuevoBtn').addEventListener('click', function() {
+  const valorReal = parseFloat(document.getElementById('valorRealExponencialNuevo').value);
+  const tiempo = parseFloat(document.getElementById('tiempoConsultaNuevo').value);
+
+  if (isNaN(valorReal) || valorReal <= 0) {
+    alert('Por favor, ingresa un valor real válido y positivo para la población.');
+    return;
+  }
+  if (isNaN(tiempo) || tiempo < 0) {
+    alert('Por favor, ingresa un tiempo válido.');
+    return;
+  }
+  if (P0 === 0 || k === 0) {
+    alert('Primero calcula el modelo exponencial antes de calcular el error.');
+    return;
+  }
+
+  const poblacionCalculada = P0 * Math.exp(k * tiempo);
+  const errorPorcentaje = (Math.abs(valorReal - poblacionCalculada) / valorReal) * 100;
+
+  const resultado = `Error porcentual: ${errorPorcentaje.toFixed(2)}%`;
+  document.getElementById('resultadoErrorExponencialNuevo').innerHTML = resultado;
+});
