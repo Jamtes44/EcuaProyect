@@ -1,4 +1,4 @@
-let P0 = 0;
+  let P0 = 0;
 let k = 0;
 let chartExponencial = null;
 let chartLogistica = null;
@@ -494,4 +494,167 @@ document.getElementById('calcularErrorExponencialNuevoBtn').addEventListener('cl
 
   const resultado = `Error porcentual: ${errorPorcentaje.toFixed(2)}%`;
   document.getElementById('resultadoErrorExponencialNuevo').innerHTML = resultado;
+});
+
+// Evento submit para el formulario "logistica-nuevo"
+document.getElementById('formLogisticaNuevo').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  // Obtener valores del formulario
+  const P0NuevoLog = parseFloat(document.getElementById('p0NuevoLog').value);
+  const rNuevoLog = parseFloat(document.getElementById('rNuevoLog').value);
+  const kNuevoLog = parseFloat(document.getElementById('kNuevoLog').value);
+
+  // Validar valores
+  if (isNaN(P0NuevoLog) || isNaN(rNuevoLog) || isNaN(kNuevoLog) ||
+      P0NuevoLog <= 0 || kNuevoLog <= 0) {
+    alert('Por favor, ingresa valores numéricos positivos en todos los campos.');
+    return;
+  }
+
+  // Guardar valores globales para uso posterior
+  P0 = P0NuevoLog;
+  rLog = rNuevoLog;
+  k = kNuevoLog;
+
+  // Mostrar sección de resultados
+  document.getElementById('resultadoLogisticaNuevo').style.display = 'block';
+
+  // Mostrar pasos de resolución (simplificado)
+  const pasos = `
+    <p>Modelo transformada de Laplace con cambio de variable:</p>
+    <p>$$ P(t) = \\frac{K}{\\left(\\frac{K - P_0}{P_0}\\right) e^{-rt} + 1} $$</p>
+    <p>Con los valores ingresados:</p>
+    <ul>
+      <li>\\( P_0 = ${P0NuevoLog} \\)</li>
+      <li>\\( r = ${rNuevoLog} \\)</li>
+      <li>\\( K = ${kNuevoLog} \\)</li>
+    </ul>
+  `;
+  document.getElementById('pasosResolucionNuevoLog').innerHTML = pasos;
+
+  // Renderizar MathJax
+  if (window.MathJax) {
+    MathJax.typesetPromise();
+  }
+
+  // Graficar la población usando la fórmula para un rango fijo de tiempo (0 a 20)
+  graficarNuevoLogistica(P0NuevoLog, rNuevoLog, kNuevoLog, 20);
+});
+
+// Función para graficar la población en "logistica-nuevo"
+function graficarNuevoLogistica(P0, r, K, tMax) {
+  const ctx = document.getElementById('graficaPoblacionNuevoLog').getContext('2d');
+
+  const labels = [];
+  const data = [];
+
+  // Definir rango de tiempo dinámico basado en r y K
+  const maxTime = r > 0 ? Math.max(50, Math.ceil(10 / r)) : 50;
+  const step = 0.1; // pasos más pequeños para suavizar la curva
+
+  for (let t = 0; t <= maxTime; t += step) {
+    labels.push(t.toFixed(1));
+    const val = K / (((K - P0) / P0) * Math.exp(-r * t) + 1);
+    data.push(val);
+  }
+
+  if (chartLogistica) chartLogistica.destroy();
+
+  const legendLabel = `P(t) = ${K.toFixed(2)} / ( (( ${K.toFixed(2)} - ${P0.toFixed(2)} ) / ${P0.toFixed(2)} ) * e^{-${r.toFixed(4)} t} + 1 )`;
+
+  chartLogistica = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: legendLabel,
+        data: data,
+        borderColor: 'rgba(255, 193, 7, 1)', // amarillo bootstrap
+        borderWidth: 2,
+        fill: false,
+        tension: 0.3,
+        pointRadius: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              size: 14
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Tiempo (t)'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Población'
+          },
+          suggestedMin: 0,
+          suggestedMax: K * 1.1
+        }
+      }
+    }
+  });
+}
+
+// Función para consultar P(t) en "logistica-nuevo"
+function calcularValorNuevoLog() {
+  const tiempoConsulta = parseFloat(document.getElementById('tiempoConsultaNuevoLog').value);
+  if (isNaN(tiempoConsulta) || tiempoConsulta < 0) {
+    alert('Por favor, ingresa un tiempo válido (número positivo).');
+    return;
+  }
+
+  const P0NuevoLog = parseFloat(document.getElementById('p0NuevoLog').value);
+  const rNuevoLog = parseFloat(document.getElementById('rNuevoLog').value);
+  const kNuevoLog = parseFloat(document.getElementById('kNuevoLog').value);
+
+  const poblacionCalculada = kNuevoLog / (((kNuevoLog - P0NuevoLog) / P0NuevoLog) * Math.exp(-rNuevoLog * tiempoConsulta) + 1);
+  document.getElementById('resultadoConsultaNuevoLog').textContent = `Para t = ${tiempoConsulta}, P(t) = ${poblacionCalculada.toFixed(4)}`;
+}
+
+// Evento para calcular error porcentual en "logistica-nuevo"
+document.getElementById('calcularErrorNuevoLogBtn').addEventListener('click', function() {
+  const valorReal = parseFloat(document.getElementById('valorRealNuevoLog').value);
+  const tiempo = parseFloat(document.getElementById('tiempoConsultaNuevoLog').value);
+
+  if (isNaN(valorReal) || valorReal <= 0) {
+    alert('Por favor, ingresa un valor real válido y positivo para la población.');
+    return;
+  }
+  if (isNaN(tiempo) || tiempo < 0) {
+    alert('Por favor, ingresa un tiempo válido.');
+    return;
+  }
+
+  const P0NuevoLog = parseFloat(document.getElementById('p0NuevoLog').value);
+  const rNuevoLog = parseFloat(document.getElementById('rNuevoLog').value);
+  const kNuevoLog = parseFloat(document.getElementById('kNuevoLog').value);
+
+  const poblacionCalculada = kNuevoLog / (((kNuevoLog - P0NuevoLog) / P0NuevoLog) * Math.exp(-rNuevoLog * tiempo) + 1);
+  const errorPorcentaje = (Math.abs(valorReal - poblacionCalculada) / valorReal) * 100;
+
+  const resultado = `Error porcentual: ${errorPorcentaje.toFixed(2)}%`;
+  document.getElementById('resultadoErrorNuevoLog').innerHTML = resultado;
+});
+
+// Añadir evento click para mostrar la sección "logistica-nuevo" desde el menú
+document.querySelectorAll('.dropdown-item').forEach(link => {
+  if (link.getAttribute('data-section') === 'logistica-nuevo') {
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+      mostrarSeccion('logistica-nuevo');
+    });
+  }
 });
